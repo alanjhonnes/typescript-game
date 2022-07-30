@@ -8,6 +8,8 @@ import { MovementSystem } from './systems/movement.system';
 import { CameraSystem } from './systems/camera.system';
 import { WebGLRendererSystem } from './systems/webgl-renderer.system';
 import { PlayerControllerComponent } from './components/player-controller.component';
+import { PlayerVelocitySystem } from './systems/player-velocity.system';
+import { WindowResizeSystem } from './systems/window-resize.system';
 
 let container: HTMLDivElement;
 let camera: THREE.PerspectiveCamera;
@@ -33,6 +35,8 @@ const world = await World.create({
         CameraSystem,
         MovementSystem,
         WebGLRendererSystem,
+        PlayerVelocitySystem,
+        WindowResizeSystem,
     ]
 });
 
@@ -50,6 +54,7 @@ world.build(system => {
 
 // Finally, we set up our game loop.  The `run` function will be executed once per frame.
 async function run() {
+    console.log('run')
     // Execute the world, which will call the `execute` method of all systems in sequence.  The call
     // is asynchronous and we _must_ await its result, otherwise errors won't be reported properly.
     await world.execute();
@@ -61,8 +66,8 @@ requestAnimationFrame(run);
 
 
 
-init();
-animate();
+// init();
+// animate();
 
 function init() {
 

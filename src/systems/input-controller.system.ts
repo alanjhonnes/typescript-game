@@ -44,6 +44,7 @@ const actionKeyMap: Record<string, ACTION_ID | undefined> = {
     // Every system can provide an `initialize` method that will be called once as the world is being
     // set up.  We'll use it to register our DOM event handlers.
     initialize(): void {
+        console.log('initialize input controller')
         this.inputControllerComponent.keysPressed = new Set()
         this.inputControllerComponent.activeActions = {
             MOVE_FORWARD: false,
@@ -82,6 +83,8 @@ const actionKeyMap: Record<string, ACTION_ID | undefined> = {
             }
         });
     }
+
+
 
     // Every system can (and probably should) provide an `execute` method that implements its logic.
     // It will be invoked once per frame in our demo, so at 60fps it's called 60 times per second.
