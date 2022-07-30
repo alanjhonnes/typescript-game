@@ -1,7 +1,7 @@
 import { World } from '@lastolivegames/becsy';
 import * as THREE from 'three';
 import { DOMRenderableComponent } from './components/dom-renderable.component';
-import { PositionComponent } from './components/position.component';
+import { Object3DComponent } from './components/object3d.component';
 import { VelocityComponent } from './components/velocity.component';
 import { InputControllerSystem } from './systems/input-controller.system';
 import { MovementSystem } from './systems/movement.system';
@@ -40,16 +40,20 @@ const world = await World.create({
     ]
 });
 
-// Now we create the entity that will represent our object and add the components it will need.
-// Each component type can be optionally followed by an object with initial field values.
-world.createEntity(PositionComponent, VelocityComponent, DOMRenderableComponent, { node: document.getElementById('object') });
 
 world.build(system => {
-    const player = system.createEntity(
-        PlayerControllerComponent,
-        PositionComponent,
-        VelocityComponent,
-    )
+    const player = system.createEntity()
+    const geometry = new THREE.BoxGeometry(20, 20, 20);
+    const object = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({ color: Math.random() * 0xffffff }));
+    player.add(PlayerControllerComponent)
+    player.add(Object3DComponent, {
+        object3d: object
+    });
+    player.add(VelocityComponent, {
+        vx: 0,
+        vy: 0,
+        vz: 0,
+    });
 })
 
 // Finally, we set up our game loop.  The `run` function will be executed once per frame.

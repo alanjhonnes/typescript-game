@@ -1,7 +1,7 @@
 import { system, System } from "@lastolivegames/becsy";
 import * as THREE from "three";
 import { DOMRenderableComponent } from "../components/dom-renderable.component";
-import { PositionComponent } from "../components/position.component";
+import { Object3DComponent } from "../components/object3d.component";
 import { CameraComponent } from "../components/singletons/camera.component";
 import { ResizeListenerComponent } from "../components/singletons/resize-listener.component";
 import { SceneComponent } from "../components/singletons/scene.component";
@@ -23,9 +23,9 @@ import { WebGLRenderComponent } from "../components/singletons/webgl-renderer.co
     }
 
     execute(): void {
-        console.log('resize execute')
+        // console.log('resize execute')
         if (this.resizeTime !== this.delta) {
-            console.log('resize execute false')
+            // console.log('resize execute false')
             this.resizeListener.needsResize = false
         }
     }

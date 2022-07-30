@@ -12,9 +12,11 @@ import { ResizeListenerComponent } from "../components/singletons/resize-listene
     }
 
     execute(): void {
-        if (this.resizeListener.needsResize) {
-            this.camera.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.camera.aspect = window.innerWidth / window.innerHeight;
             this.camera.camera.updateProjectionMatrix();
+        if (this.resizeListener.needsResize) {
+            
         }
     }
+    
 }
