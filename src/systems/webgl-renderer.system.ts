@@ -17,13 +17,26 @@ import { WebGLRenderComponent } from "../components/singletons/webgl-renderer.co
 
     initialize(): void {
         this.scene.scene = new THREE.Scene();
-        this.scene.scene.background = new THREE.Color(0x000000);
-        const light = new THREE.DirectionalLight(0xffffff, 1);
-        light.position.set(1, 1, 1).normalize();
-        this.scene.scene.add(light);
+        // this.scene.scene.background = new THREE.Color(0x000000);
+        this.scene.scene.background = new THREE.Color(0xaaccff);
+        this.scene.scene.fog = new THREE.FogExp2(0xaaccff, 0.0017);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        directionalLight.position.set( 0, 200, 100 );
+        directionalLight.castShadow = true;
+        directionalLight.shadow.camera.top = 180;
+        directionalLight.shadow.camera.bottom = - 100;
+        directionalLight.shadow.camera.left = - 120;
+        directionalLight.shadow.camera.right = 120;
+        const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444);
+        hemiLight.position.set(0, 200, 0);
+        this.scene.scene.add(directionalLight);
+        this.scene.scene.add(hemiLight);
+
+        // this.scene.scene.add(light);
 
         const renderer = new THREE.WebGLRenderer();
         this.webglRenderer.renderer = renderer;
+        renderer.shadowMap.enabled = true;
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(window.innerWidth, window.innerHeight, false);
         document.body.appendChild(renderer.domElement);
@@ -36,10 +49,10 @@ import { WebGLRenderComponent } from "../components/singletons/webgl-renderer.co
             const object3dComp = object.read(Object3DComponent)
             scene.add(object3dComp.object3d)
         }
-        
+
         // console.log(this.resizeListener.needsResize)
         // if (this.resizeListener.needsResize) {
-            this.webglRenderer.renderer.setSize(window.innerWidth, window.innerHeight, false)
+        this.webglRenderer.renderer.setSize(window.innerWidth, window.innerHeight, false)
         // }
         const camera = this.camera.camera;
         camera.position.x = 100;

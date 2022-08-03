@@ -44,7 +44,10 @@ const world = await World.create({
 world.build(system => {
     const player = system.createEntity()
     const geometry = new THREE.BoxGeometry(20, 20, 20);
-    const object = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({ color: Math.random() * 0xffffff }));
+    const object = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({ color: Math.random() * 0xffffff }));
+    object.castShadow = true;
+    object.position.y = 10;
+    
     player.add(PlayerControllerComponent)
     player.add(Object3DComponent, {
         object3d: object
@@ -54,6 +57,26 @@ world.build(system => {
         vy: 0,
         vz: 0,
     });
+
+
+    const plane = system.createEntity()
+    const planeObject = new THREE.Mesh( new THREE.PlaneGeometry( 2000, 2000 ), new THREE.MeshPhongMaterial( { color: 0x999999, depthWrite: false } ) );
+    planeObject.rotation.x = - Math.PI / 2;
+    planeObject.receiveShadow = true
+    plane.add(Object3DComponent, {
+        object3d: planeObject
+    });
+
+
+    const gridFloor = system.createEntity()
+    const gridHelper = new THREE.GridHelper( 2000, 20, 0x000000, 0x000000 );
+    const gridMaterial: THREE.Material = gridHelper.material as THREE.Material;
+    gridMaterial.opacity = 0.2;
+    gridMaterial.transparent = true;
+    gridFloor.add(Object3DComponent, {
+        object3d: gridHelper
+    });
+
 })
 
 // Finally, we set up our game loop.  The `run` function will be executed once per frame.
