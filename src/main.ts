@@ -1,5 +1,6 @@
 import { World } from '@lastolivegames/becsy';
 import * as THREE from 'three';
+import {  } from 'three'
 import { DOMRenderableComponent } from './components/dom-renderable.component';
 import { Object3DComponent } from './components/object3d.component';
 import { VelocityComponent } from './components/velocity.component';
@@ -10,6 +11,7 @@ import { WebGLRendererSystem } from './systems/webgl-renderer.system';
 import { PlayerControllerComponent } from './components/player-controller.component';
 import { PlayerVelocitySystem } from './systems/player-velocity.system';
 import { WindowResizeSystem } from './systems/window-resize.system';
+import { PlayerRotationSystem } from './systems/player-rotation.system';
 
 let container: HTMLDivElement;
 let camera: THREE.PerspectiveCamera;
@@ -37,6 +39,7 @@ const world = await World.create({
         WebGLRendererSystem,
         PlayerVelocitySystem,
         WindowResizeSystem,
+        PlayerRotationSystem,
     ]
 });
 
@@ -47,7 +50,7 @@ world.build(system => {
     const object = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({ color: Math.random() * 0xffffff }));
     object.castShadow = true;
     object.position.y = 10;
-    
+
     player.add(PlayerControllerComponent)
     player.add(Object3DComponent, {
         object3d: object
@@ -60,7 +63,10 @@ world.build(system => {
 
 
     const plane = system.createEntity()
-    const planeObject = new THREE.Mesh( new THREE.PlaneGeometry( 2000, 2000 ), new THREE.MeshPhongMaterial( { color: 0x999999, depthWrite: false } ) );
+    const planeObject = new THREE.Mesh(
+        new THREE.PlaneGeometry(2000, 2000),
+        new THREE.MeshPhongMaterial({ color: 0x999999, depthWrite: false })
+    );
     planeObject.rotation.x = - Math.PI / 2;
     planeObject.receiveShadow = true
     plane.add(Object3DComponent, {
@@ -69,13 +75,14 @@ world.build(system => {
 
 
     const gridFloor = system.createEntity()
-    const gridHelper = new THREE.GridHelper( 2000, 20, 0x000000, 0x000000 );
+    const gridHelper = new THREE.GridHelper(2000, 20, 0x000000, 0x000000);
     const gridMaterial: THREE.Material = gridHelper.material as THREE.Material;
     gridMaterial.opacity = 0.2;
     gridMaterial.transparent = true;
     gridFloor.add(Object3DComponent, {
         object3d: gridHelper
     });
+
 
 })
 

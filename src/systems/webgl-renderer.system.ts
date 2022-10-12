@@ -34,11 +34,11 @@ import { WebGLRenderComponent } from "../components/singletons/webgl-renderer.co
 
         // this.scene.scene.add(light);
 
-        const renderer = new THREE.WebGLRenderer();
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
         this.webglRenderer.renderer = renderer;
         renderer.shadowMap.enabled = true;
         renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.setSize(window.innerWidth, window.innerHeight, false);
+        // renderer.setSize(window.innerWidth, window.innerHeight, false);
         document.body.appendChild(renderer.domElement);
     }
 
@@ -52,15 +52,8 @@ import { WebGLRenderComponent } from "../components/singletons/webgl-renderer.co
 
         // console.log(this.resizeListener.needsResize)
         // if (this.resizeListener.needsResize) {
-        this.webglRenderer.renderer.setSize(window.innerWidth, window.innerHeight, false)
+        this.webglRenderer.renderer.setSize(window.innerWidth, window.innerHeight, true)
         // }
-        const camera = this.camera.camera;
-        camera.position.x = 100;
-        camera.position.y = 100;
-        camera.position.z = 100;
-
-        camera.lookAt(scene.position);
-        camera.updateMatrixWorld();
         this.webglRenderer.renderer.render(this.scene.scene, this.camera.camera)
     }
 }

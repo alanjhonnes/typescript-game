@@ -3,6 +3,7 @@ import { Object3DComponent } from "../components/object3d.component";
 import { VelocityComponent } from "../components/velocity.component";
 
 @system export class MovementSystem extends System {
+    
     // In this query we're looking for every entity with both a `Position` and a `Velocity` component,
     // but while we declare that we'll be writing to `Position` we'll only be reading from `Velocity`.
     // Reading from `Velocity` will automatically make this system run after `VelocityInputController`
